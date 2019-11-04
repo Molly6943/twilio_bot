@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="id=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Bot</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" />
+  </head>
+  <style>
+  .rwd-table {
+    margin: 1em 0;
+    min-width: 300px;
+    background: #34495E;
+    color: #fff;
+    border-radius: 0.4em;
+    overflow: hidden;
+  }
+  .rwd-table tr {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-color: #46637f;
+  }
+  .rwd-table th {
+    display: none;
+    color: #dd5;
+    margin: 0.5em 1em;
+    text-align: left;
+  }
+  .rwd-table td {
+    display: block;
+    margin: 0.5em 1em;
+    text-align: left;
+  }
+  .rwd-table td:first-child {
+    padding-top: 0.5em;
+  }
+  .rwd-table td:last-child {
+    padding-bottom: 0.5em;
+  }
+  .rwd-table td:before {
+    content: attr(data-th) ": ";
+    font-weight: bold;
+    width: 6.5em;
+    display: inline-block;
+    color: #dd5;
+  }
+  @media (min-width: 480px) {
+    .rwd-table td:before {
+      display: none;
+    }
+  }
+  @media (min-width: 480px) {
+    .rwd-table th, .rwd-table td {
+      display: table-cell;
+      padding: 0.25em 0.5em;
+    }
+    .rwd-table th:first-child, .rwd-table td:first-child {
+      padding-left: 0;
+    }
+    .rwd-table th:last-child, .rwd-table td:last-child {
+      padding-right: 0;
+    }
+  }
+  body {
+    padding: 0 2em;
+    font-family: Montserrat, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    color: #444;
+    background: #eee;
+  }
+  h1 {
+    font-weight: normal;
+    letter-spacing: -1px;
+    color: #34495E;
+  }
+  @media (min-width: 480px) {
+    .rwd-table th, .rwd-table td {
+      padding: 1em !important;
+    }
+  }
+  </style>
+  <body>
+  <h1>List to Table</h1>
+  <table class="rwd-table">
+    <tr>
+      <th>ID</th>
+      <th>Time</th>
+      <th>Message</th>
+    </tr>
+  </table>
+  </body>
+
+  <script type="text/javascript">
+   var ws = new WebSocket(`ws://${location.host}`);
+    ws.onopen = function () {
+      console.log('ws onopen');
+      ws.send('from client: hello');
+    };
+    ws.onmessage = function (e) {
+      console.log('ws onmessage');
+      console.log('from server: ' + e.data);
+      let table = document.querySelector("table");
+      let list = JSON.parse(e.data)
+
+      generateTable(table, list);
+    }
+    function generateTable(table, data) {
+      for (let element of data) {
+        console.log(element)
+        let row = table.insertRow();
+        for (key in element) {
+          let cell = row.insertCell();
+          let text = document.createTextNode(element[key]);
+          cell.appendChild(text);
+        }
+      }
+    }
+  </script>
+</html>

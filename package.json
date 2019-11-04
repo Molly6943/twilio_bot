@@ -1,0 +1,19 @@
+{
+  "name": "lab4_bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "express": "^4.17.1",
+    "redis": "^2.8.0",
+    "sqlite3": "^4.1.0",
+    "twilio": "^3.36.0",
+    "ws": "^7.2.0"
+  }
+}
